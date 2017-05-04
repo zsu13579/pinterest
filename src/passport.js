@@ -31,24 +31,23 @@ import db from './data/db'
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new LocalStrategy(
-   function(username, password, done) {
-    User.findOne({ email: username }, function (err, user) {
-		console.log(user);
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (user.password != password) { return done(null, false); }
-      return done(null, user);
-    });
+  //  function(username, password, done) {
+  //   User.findOne({ email: username }, function (err, user) {
+		// console.log(user);
+  //     if (err) { return done(err); }
+  //     if (!user) { return done(null, false); }
+  //     if (user.password != password) { return done(null, false); }
+  //     return done(null, user);
+  //   });
   
-
-  // function(username, password, cb) {
-	// User.findOne({ where: { email: username } }).then(function(user){
+  function(username, password, cb) {
+	User.findOne({ where: { email: username } }).then(function(user){
 		
-		// console.log(JSON.stringyfi(user));
-	// if (!user) { return cb(null, false); }
-	// if (user.password != password) { return cb(null, false); }
-	// return cb(null, user);
-	// });
+    let userjson = JSON.parse(JSON.stringify(user));
+  	if (!userjson) { return cb(null, false); }
+  	if (userjson.password != password) { return cb(null, false); }
+  	return cb(null, userjson);
+  	});
 	
     // db.users.findByUsername(username, function(err, user) {
       // if (err) { return cb(err); }

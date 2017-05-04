@@ -40,7 +40,7 @@ class Navigation extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    username: state.user.username
+    username: state.user.email
   }
 }
 

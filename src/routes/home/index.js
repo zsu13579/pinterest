@@ -17,7 +17,7 @@ export default {
 
   async action({ fetch,store }) {
 	let state = store.getState();
-	if(!state.user.username){
+	if(!state.user.email){
 		return { redirect: '/login' }
 	}
     const resp = await fetch('/graphql', {

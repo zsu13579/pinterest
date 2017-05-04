@@ -15,7 +15,11 @@ export default {
 
   path: '/',
 
-  async action({ fetch }) {
+  async action({ fetch,store }) {
+	let state = store.getState();
+	if(!state.user.username){
+		return { redirect: '/login' }
+	}
     const resp = await fetch('/graphql', {
       body: JSON.stringify({
         query: '{news{title,link,content}}',

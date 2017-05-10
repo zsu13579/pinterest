@@ -14,6 +14,15 @@ import {
 
 import me from './queries/me';
 import news from './queries/news';
+import allbooks from './queries/allbooks';
+import addbook from './mutations/addbook';
+
+const Mutation = new ObjectType({
+  name: 'Mutations',
+  fields: {
+    createBook: addbook,
+  }
+});
 
 const schema = new Schema({
   query: new ObjectType({
@@ -21,8 +30,10 @@ const schema = new Schema({
     fields: {
       me,
       news,
+	  allbooks,
     },
   }),
+  mutation: Mutation,
 });
 
 export default schema;

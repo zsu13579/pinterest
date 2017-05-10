@@ -19,17 +19,17 @@ class Navigation extends React.Component {
 	const {username}=this.props;
     return username ? (
       <div className={s.root} role="navigation">
-        <Link className={s.link} to="/about">About</Link>
-        <Link className={s.link} to="/contact">Contact</Link>
+        <Link className={s.link} to="/home">Home</Link>
+		<Link className={s.link} to="/allbooks">All books</Link>
+        <Link className={s.link} to="/mybooks">My books</Link>
+		<Link className={s.link} to="/profile">My profile</Link>
         <span className={s.spacer}> | </span>
         <a className={s.link} href="/logout">Log out</a>		
       </div>
     ) : 
 	(
       <div className={s.root} role="navigation">
-        <Link className={s.link} to="/about">About</Link>
-        <Link className={s.link} to="/contact">Contact</Link>
-        <span className={s.spacer}> | </span>
+		<Link className={s.link} to="/home">Home</Link>
         <Link className={s.link} to="/login">Log in</Link>
         <span className={s.spacer}>or</span>
         <Link className={cx(s.link, s.highlight)} to="/register">Sign up</Link>

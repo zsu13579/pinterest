@@ -20,16 +20,18 @@ export default {
 	if(!state.user.email){
 		return { redirect: '/login' }
 	}
-    const resp = await fetch('/graphql', {
-      body: JSON.stringify({
-        query: '{news{title,link,content}}',
-      }),
-    });
-    const { data } = await resp.json();
-    if (!data || !data.news) throw new Error('Failed to load the news feed.');
+    // const resp = await fetch('/graphql', {
+      // body: JSON.stringify({
+        // query: '{news{title,link,content}}',
+      // }),
+    // });
+    // const { data } = await resp.json();
+    // if (!data || !data.news) throw new Error('Failed to load the news feed.');
+	// const vnews = {news:{title:"t1",link:"l1",content:"c1"}};
     return {
       title: 'React Starter Kit',
-      component: <Layout><Home news={data.news} /></Layout>,
+      // component: <Layout><Home news={data.news} /></Layout>,
+	  component: <Layout><h1>welcomehome</h1></Layout>,
     };
   },
 

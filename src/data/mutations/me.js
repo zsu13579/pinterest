@@ -7,21 +7,16 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React from 'react';
-import Layout from '../../components/Layout';
-import Contact from './Contact';
+import UserType from '../types/UserType';
 
-const title = 'Contact Us';
-
-export default {
-
-  path: '/contact',
-
-  action() {
-    return {
-      title,
-      component: <Layout><Contact title={title} /></Layout>,
+const me = {
+  type: UserType,
+  resolve({ request }) {
+    return request.user && {
+      id: request.user.id,
+      email: request.user.email,
     };
   },
-
 };
+
+export default me;

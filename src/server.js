@@ -30,7 +30,7 @@ import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import config from './config';
-import { User, UserLogin, UserClaim, UserProfile } from './data/models';
+import { User, UserLogin, UserClaim, UserProfile, Book } from './data/models';
 
 const app = express();
 
@@ -135,6 +135,23 @@ app.post('/register',
     res.redirect('/login');
   });
 
+app.post('/mybooks',
+  (req, res, done) => {
+	const title=req.body.title;
+	const fooBar = async () => {
+	  // User.drop();
+	  let book = await Book.create({
+		title: title,
+	  });
+	  done(null, {
+		title: title,
+	  });	
+	}
+	fooBar().catch(done);	
+    res.redirect('/mybooks');
+  });  
+  
+  
 //
 // Register API middleware
 // -----------------------------------------------------------------------------
@@ -151,7 +168,7 @@ app.use('/graphql', expressGraphQL(req => ({
 app.get('*', async (req, res, next) => {
   try {
     const css = new Set();
-
+	// Book.find({}).then((res) => {console.log(JSON.stringify(res));console.log("111");});
     const fetch = createFetch({
       baseUrl: config.api.serverUrl,
       cookie: req.headers.cookie,

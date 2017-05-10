@@ -10,9 +10,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Contact.css';
+import s from './Profile.css';
 
-class Contact extends React.Component {
+class Profile extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
   };
@@ -29,4 +29,4 @@ class Contact extends React.Component {
   }
 }
 
-export default withStyles(s)(Contact);
+export default withStyles(s)(Profile);

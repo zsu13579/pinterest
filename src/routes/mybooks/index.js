@@ -17,10 +17,23 @@ export default {
 
   path: '/mybooks',
 
-  action() {
+  async action({ fetch,store }) {
+	let state = store.getState();
+	// if(!state.user.email){
+		// return { redirect: '/login' }
+	// }
+    const resp = await fetch('/graphql', {
+      body: JSON.stringify({
+        query: '{allbooks(title:"book1"){title}}',
+      }),
+    });
+    const { data } = await resp.json();
+    if (!data) throw new Error('Failed to load the news feed.');
+	console.log(data.allbooks[0].title)
+	
     return {
       title,
-      component: <Layout><Mybooks title={title} /></Layout>,
+      component: <Layout><Mybooks title={title} books={data.allbooks}/></Layout>,
     };
   },
 

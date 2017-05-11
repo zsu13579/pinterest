@@ -10,6 +10,7 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import Page from '../../components/Page';
+import Allbooks from './Allbooks';
 // import { User, Book } from '../../data/models';
 
 export default {
@@ -38,12 +39,11 @@ export default {
     });
     const { data } = await resp.json();
     if (!data) throw new Error('Failed to load the news feed.');
-	console.log(data)
-	// Book.find({}).then((res) => {console.log(res.json())});
+	console.log(data.allbooks[0].id)
 	const vhtml='<h1>hello graph<h1>';
     return {
       title: 'All Books',
-      component: <Layout><Page title='test' html={vhtml} /></Layout>,
+      component: <Layout><Allbooks books={data.allbooks} /></Layout>,
     };
   },
 

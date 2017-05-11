@@ -19,60 +19,49 @@ import {
 } from 'graphql';
 
 let items = [];
-let lastFetchTask;
+// let lastFetchTask;
 let lastFetchTime = new Date(1970, 0, 1);
 
 const allbooks = {
-  type: BookItemType,
-  resolve() {
+
+  type: new List(BookItemType),
+  args: {
+	  title: {type: StringType},
+  },
+  resolve(root,{title}) {
     // if (lastFetchTask) {
-    //   return lastFetchTask;
+      // return lastFetchTask;
     // }
 
     // if ((new Date() - lastFetchTime) > 1000 * 60 * 1 /* 1 mins */) {
-      // lastFetchTime = new Date();
-      
-      lastFetchTask = Book.find()
-        .then(response => {
-      let resp={};
-      let tmp=JSON.parse(JSON.stringify(response));
+		
+    // let fooBar = async () => {
+	  // // lastFetchTime = new Date();
+    // const books = await Book.find({}); 
+	// // console.log(books);
+	// // items.push(books);
+	// items = books;
+	// return {title:"aaa"};
+	// }
+	// fooBar().catch((err) => {
+	  // // lastFetchTask = null;
+	// throw err;
+	// });	
+	// const title=`${title}`
+	if(title){
+		return Book.findAll({where: {title:title}});
+	}else{
+		return Book.findAll();
+	}
+      // if (items.length) {
+        // return items;
+      // }
 
-      resp.owner=tmp.owner;
-      resp.borrower=tmp.borrower;
-      resp.isBorrowed=tmp.isBorrowed;
-      resp.title=tmp.title;
-      resp.link=tmp.link;
-			items.push(resp);
-      console.log(items);
-			return {
-        owner:tmp.owner,
-        borrower:tmp.borrower,
-        isBorrowed:tmp.isBorrowed,
-        title:tmp.title,
-        link:tmp.link,
-      };
-			})
-        .catch((err) => {
-          lastFetchTask = null;
-          throw err;
-        });
+      // return lastFetchTask;
+    // }
 
-   // return {
-   //      owner:"tmp.owner",
-   //      borrower:"tmp.borrower",
-   //      isBorrowedt:true,
-   //      title:"tmp.title",
-   //      link:"tmp.link",
-   //    };
+    // return {title:"aaa"};
 
-    //   if (items.length) {
-    //     return items;
-    //   }
-
-    //   return lastFetchTask;
-    // // }
-
-    // return items;
   },
 };
 

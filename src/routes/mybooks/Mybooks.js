@@ -25,7 +25,7 @@ class Mybooks extends React.Component {
           <form method="post">
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="title">
-                Book's Name:
+                Book's Name: 
               </label>
               <input
                 className={s.input}
@@ -41,7 +41,14 @@ class Mybooks extends React.Component {
               </button>
             </div>
           </form>
-		  <p>...</p>
+		  <div className={s.bookList}>
+			<h1></h1>
+			{this.props.books.map(item => (
+            <article key={item.link} className={s.newsItem}>
+              <h2 className={s.newsTitle}><a href={item.link}>{item.title}</a></h2>
+            </article>
+			))}
+		  </div>
         </div>
       </div>
     );

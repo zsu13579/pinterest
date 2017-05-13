@@ -137,11 +137,12 @@ app.post('/register',
 
 app.post('/mybooks',
   (req, res, done) => {
-	const title=req.body.title;
+	const title = req.body.title;
+  const id = `${Date.now()}::${Math.ceil(Math.random() * 99999999)}`;
 	const fooBar = async () => {
 	  // User.drop();
 	  let book = await Book.create({
-		title: title,
+		title: title,_id:id,owner:req.user.email,isBorrowed:false,
 	  });
 	  done(null, {
 		title: title,

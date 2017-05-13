@@ -22,18 +22,29 @@ export default {
 	// if(!state.user.email){
 		// return { redirect: '/login' }
 	// }
+  // console.log(state.user.email) ;
+  let queryStr = '{allbooks(owner:"'+state.user.email+'"){title}}';
+  let queryStr2 = '{yourReq(owner:"'+state.user.email+'"){title}}';
     const resp = await fetch('/graphql', {
       body: JSON.stringify({
-        query: '{allbooks(title:"book1"){title}}',
+        query: queryStr,
       }),
     });
     const { data } = await resp.json();
     if (!data) throw new Error('Failed to load the news feed.');
-	console.log(data.allbooks[0].title)
+	console.log(data.allbooks[0].title);
+
+  const resp2 = await fetch('/graphql', {
+      body: JSON.stringify({
+        query: queryStr2,
+      }),
+    });
+    const { data:dataYourReq } = await resp2.json();
+    if (!data) throw new Error('Failed to load the news feed.');
 	
     return {
       title,
-      component: <Layout><Mybooks title={title} books={data.allbooks}/></Layout>,
+      component: <Layout><Mybooks title={title} books={data.allbooks} yourReq={dataYourReq.yourReq} /></Layout>,
     };
   },
 

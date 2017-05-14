@@ -21,10 +21,11 @@ import {
 const addbook = {
   type: BookItemType,
   args: {
+    _id: { type: StringType },    
     owner: { type: StringType },
     borrower: { type: StringType },
-	isBorrowed: { type: new NonNull(StringType) },
-	title: { type: new NonNull(StringType) },
+	  isBorrowed: { type: new NonNull(StringType) },
+	  title: { type: new NonNull(StringType) },
     link: { type: StringType },
   },
   resolve: function(rootValue, args) {
@@ -37,48 +38,7 @@ const addbook = {
 	  });	
 	}
 	fooBar().catch(done);
-	// return Book.create(bookVal)
-	  // .then(_ => author);
   }
 }
-
-// let items = [];
-// let lastFetchTask;
-// let lastFetchTime = new Date(1970, 0, 1);
-
-// const allbooks = {
-  // type: new List(BookItemType),
-  // resolve() {
-    // if (lastFetchTask) {
-      // return lastFetchTask;
-    // }
-
-    // if ((new Date() - lastFetchTime) > 1000 * 60 * 1 /* 1 mins */) {
-      // lastFetchTime = new Date();
-      // lastFetchTask = Book.find({})
-        // .then(response => response.json())
-        // .then((data) => {
-          // if (data.status === 'ok') {
-            // items = data.items;
-          // }
-
-          // lastFetchTask = null;
-          // return items;
-        // })
-        // .catch((err) => {
-          // lastFetchTask = null;
-          // throw err;
-        // });
-
-      // if (items.length) {
-        // return items;
-      // }
-
-      // return lastFetchTask;
-    // }
-
-    // return items;
-  // },
-// };
 
 export default addbook;

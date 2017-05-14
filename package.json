@@ -16,6 +16,8 @@
     "babel-polyfill": "^6.23.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
+    "boostrap": "^1.0.0",
+    "bootstrap": "3.3.7",
     "classnames": "^2.2.5",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",

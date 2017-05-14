@@ -8,9 +8,7 @@
  */
 
 import { GraphQLList as List } from 'graphql';
-import fetch from 'isomorphic-fetch';
 import BookItemType from '../types/BookItemType';
-import UserType from '../types/UserType';
 import { User, Book } from '../../data/models';
 import {
   GraphQLObjectType as ObjectType,
@@ -20,19 +18,14 @@ import {
 
 let items = [];
 
-const allbooks = {
-
+const yourReq = {
   type: new List(BookItemType),
   args: {
 	  owner: {type: StringType},
   },
   resolve(root,{owner}) {
-  	if(owner){
-  		return Book.findAll({where: {owner:owner}});
-  	}else{
-  		return Book.findAll();
-  	}
+  	return Book.findAll({where: {owner:owner, isBorrowed: 0}});
   },
 };
 
-export default allbooks;
+export default yourReq;

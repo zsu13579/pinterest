@@ -17,10 +17,11 @@ import UserType from '../types/UserType';
 const BookItemType = new ObjectType({
   name: 'BookItem',
   fields: {
+    _id: { type: StringType },
     owner: { type: StringType },
     borrower: { type: StringType },
-	isBorrowed: { type: new NonNull(StringType) },
-	title: { type: new NonNull(StringType) },
+	  isBorrowed: { type: new NonNull(StringType) },/* 0: not borrowed, 1: request for borrow, 2: borrowed  */
+	  title: { type: new NonNull(StringType) },
     link: { type: StringType },
   },
 });

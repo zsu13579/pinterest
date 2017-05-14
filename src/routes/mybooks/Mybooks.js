@@ -11,9 +11,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Mybooks.css';
+<<<<<<< HEAD
 import { Alert,Button,Panel } from 'react-bootstrap';
 // import 'jquery/dist/jquery';
 // import 'bootstrap/dist/js/bootstrap';
+=======
+import { Alert,Button,Panel,Accordion } from 'react-bootstrap';
+>>>>>>> 8e8c812330709711971bdca069fe25fd1ff35764
 
 class Mybooks extends React.Component {
   
@@ -28,19 +32,32 @@ class Mybooks extends React.Component {
     title: PropTypes.string.isRequired,
   };
 
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      yourRequestOpen: false,
+      RequestForYouOpen: false,
+    };
+  }
+
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
-		
-			<button className="btn btn-primary" onClick={ ()=> this.setState({ open: !this.state.open })}>
-			click
-			</button>
-			<Panel collapsible expanded={this.state.open}>
-			Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-			Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-			</Panel>
-		
+        <br/>
+        <Accordion>
+          <Panel header="Your trade requests({} outstanding)" bsStyle="info" eventKey="1">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          </Panel>
+          <Panel header={'Trade requests for you('+this.props.yourReq.length+' unapproved)'} bsStyle="info" eventKey="2">
+            <div className={s.bookList}>
+            {this.props.yourReq.map(item => (
+              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
+            ))}
+            </div>
+          </Panel>
+        </Accordion>
+
           <h1>{this.props.title}</h1>
           <form method="post">
             <div className={s.formGroup}>

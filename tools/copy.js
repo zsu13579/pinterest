@@ -30,11 +30,8 @@ async function copy() {
     }, null, 2)),
     copyFile('LICENSE.txt', 'build/LICENSE.txt'),
     copyDir('public', 'build/public'),
-	await makeDir('build/public/js'),
-	copyFile('node_modules/jquery/dist/jquery.min.js', 'build/public/js/jquery.min.js'),
-	copyFile('node_modules/bootstrap/dist/js/bootstrap.min.js', 'build/public/js/bootstrap.min.js'),
-	copyDir('node_modules/bootstrap/dist/css', 'build/public/css'),
-	copyDir('node_modules/bootstrap/dist/fonts', 'build/public/fonts'),
+    copyDir('node_modules/bootstrap/dist/css', 'build/public/css'),
+    copyDir('node_modules/bootstrap/dist/fonts', 'build/public/fonts'),
   ]);
 
   if (process.argv.includes('--watch')) {

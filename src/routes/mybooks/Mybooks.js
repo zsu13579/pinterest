@@ -11,8 +11,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Mybooks.css';
+import { Alert,Button,Panel } from 'react-bootstrap';
+// import 'jquery/dist/jquery';
+// import 'bootstrap/dist/js/bootstrap';
 
 class Mybooks extends React.Component {
+  
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      open: false
+    };
+  }
+  
   static propTypes = {
     title: PropTypes.string.isRequired,
   };
@@ -21,6 +32,15 @@ class Mybooks extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
+		
+			<button className="btn btn-primary" onClick={ ()=> this.setState({ open: !this.state.open })}>
+			click
+			</button>
+			<Panel collapsible expanded={this.state.open}>
+			Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+			Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+			</Panel>
+		
           <h1>{this.props.title}</h1>
           <form method="post">
             <div className={s.formGroup}>

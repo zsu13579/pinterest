@@ -18,33 +18,36 @@ export default {
   path: '/mybooks',
 
   async action({ fetch,store }) {
-	let state = store.getState();
-	// if(!state.user.email){
-		// return { redirect: '/login' }
-	// }
-  // console.log(state.user.email) ;
-  let queryStr = '{allbooks(owner:"'+state.user.email+'"){title}}';
-  let queryStr2 = '{yourReq(owner:"'+state.user.email+'"){title}}';
-    const resp = await fetch('/graphql', {
+	  let state = store.getState();
+  	if(!state.user.email){
+  		return { redirect: '/login' }
+  	}
+    
+    // get books function
+    async function getBooks(queryStr,err){
+      const resp = await fetch('/graphql', {
       body: JSON.stringify({
         query: queryStr,
       }),
-    });
-    const { data } = await resp.json();
-    if (!data) throw new Error('Failed to load the news feed.');
-	console.log(data.allbooks[0].title);
-
-  const resp2 = await fetch('/graphql', {
-      body: JSON.stringify({
-        query: queryStr2,
-      }),
-    });
-    const { data:dataYourReq } = await resp2.json();
-    if (!data) throw new Error('Failed to load the news feed.');
+      });
+      const { data } = await resp.json();
+      if (!data) throw new Error('Failed to load the booklist:' + err);
+      return data.allbooks;
+    } 
+  
+    // My books query
+    let queryStr1 = '{allbooks(owner:"'+state.user.email+'"){title}}';
+    const myAllBooks = await getBooks(queryStr1, "My allbooks");
+    // My requests query outstanding
+    let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title}}';
+    const myReqBooks = await getBooks(queryStr2, "My requests books");
+    // request for me query unapproved
+    let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title}}';
+    const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");
 	
     return {
       title,
-      component: <Layout><Mybooks title={title} books={data.allbooks} yourReq={dataYourReq.yourReq} /></Layout>,
+      component: <Layout><Mybooks title={title} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} /></Layout>,
     };
   },
 

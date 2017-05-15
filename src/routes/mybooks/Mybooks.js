@@ -32,12 +32,16 @@ class Mybooks extends React.Component {
         <div className={s.container}>
         <br/>
         <Accordion>
-          <Panel header="Your trade requests({} outstanding)" bsStyle="info" eventKey="1">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-          </Panel>
-          <Panel header={'Trade requests for you('+this.props.yourReq.length+' unapproved)'} bsStyle="info" eventKey="2">
+          <Panel header={'Your Trade requests('+ this.props.myReqBooks.length +' outstanding)'} bsStyle="info" eventKey="1">
             <div className={s.bookList}>
-            {this.props.yourReq.map(item => (
+            {this.props.myReqBooks.map(item => (
+              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
+            ))}
+            </div>
+          </Panel>
+          <Panel header={'Trade requests for you('+ this.props.reqForMyBooks.length +' unapproved)'} bsStyle="info" eventKey="2">
+            <div className={s.bookList}>
+            {this.props.reqForMyBooks.map(item => (
               <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
             ))}
             </div>
@@ -66,7 +70,7 @@ class Mybooks extends React.Component {
           </form>
 		  <div className={s.bookList}>
 			<h1></h1>
-			{this.props.books.map(item => (
+			{this.props.myAllBooks.map(item => (
             <article key={item.link} className={s.newsItem}>
               <h2 className={s.newsTitle}><a href={item.link}>{item.title}</a></h2>
             </article>

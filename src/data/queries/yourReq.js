@@ -24,7 +24,7 @@ const yourReq = {
 	  owner: {type: StringType},
   },
   resolve(root,{owner}) {
-  	return Book.findAll({where: {owner:owner, isBorrowed: 0}});
+  	return Book.findAll({where: {owner:owner, isBorrowed: 1}});
   },
 };
 

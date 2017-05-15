@@ -24,14 +24,16 @@ const allbooks = {
 
   type: new List(BookItemType),
   args: {
-	  owner: {type: StringType},
+    id: { type: StringType },
+    owner: { type: StringType },
+    borrower: { type: StringType },
+    isBorrowed: { type: StringType },/* 0: not borrowed, 1: request for borrow, 2: borrowed  */
+    title: { type: StringType },
+    link: { type: StringType },
   },
-  resolve(root,{owner}) {
-  	if(owner){
-  		return Book.findAll({where: {owner:owner}});
-  	}else{
-  		return Book.findAll();
-  	}
+  resolve(root,args) {
+    // let whereobj = Object.assign({}, args);  
+    return Book.findAll({where: args});
   },
 };
 

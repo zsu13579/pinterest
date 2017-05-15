@@ -142,7 +142,7 @@ app.post('/mybooks',
 	const fooBar = async () => {
 	  // User.drop();
 	  let book = await Book.create({
-		title: title,_id:id,owner:req.user.email,isBorrowed:false,
+		title: title,_id:id,owner:req.user.email,isBorrowed:0,
 	  });
 	  done(null, {
 		title: title,

@@ -22,9 +22,8 @@ class Navigation extends React.Component {
         <Link className={s.link} to="/home">Home</Link>
 		<Link className={s.link} to="/allbooks">All books</Link>
         <Link className={s.link} to="/mybooks">My books</Link>
-		<Link className={s.link} to="/profile">My profile</Link>
-        <span className={s.spacer}> | </span>
-        <a className={s.link} href="/logout">Log out</a>		
+		<Link className={s.link} to="/profile"><i className="fa fa-cog fa-fw" aria-hidden="true"></i></Link>
+        <a className={s.link} href="/logout"><i className="fa fa-sign-out fa-fw" aria-hidden="true"></i></a>		
       </div>
     ) : 
 	(

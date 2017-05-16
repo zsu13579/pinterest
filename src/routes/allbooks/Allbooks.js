@@ -13,6 +13,12 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Allbooks.css';
 
 class Allbooks extends React.Component {
+
+  // constructor(...args) {
+	// super(...args);
+    // this.handleReq = this.props.handleReq.bind(this);
+  // }		
+	
   static propTypes = {
     books: PropTypes.arrayOf(PropTypes.shape({
       owner: PropTypes.string,
@@ -21,16 +27,21 @@ class Allbooks extends React.Component {
       link: PropTypes.string,
       isBorrowed: PropTypes.string,
     })).isRequired,
-  };
-
+  }
+  
+  handleClick(e){
+	const id = e.target.id;
+	this.props.handleReq(id);
+  }	
+  
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
           <h1>All Books</h1>
           {this.props.books.map(item => (
-            <article key={item.link} className={s.newsItem}>
-              <h1 className={s.newsTitle}><a href={item.link}>{item.title}</a></h1>
+            <article className={s.newsItem}>
+              <h1 className={s.newsTitle}><a href={item.link}>{item.title}</a><a><i id={item.id} onClick={this.handleClick.bind(this)} className='fa fa-exchange fa-fw'></i></a></h1>
             </article>
           ))}
         </div>

@@ -11,39 +11,44 @@ import React from 'react';
 import Layout from '../../components/Layout';
 import Page from '../../components/Page';
 import Allbooks from './Allbooks';
-// import { User, Book } from '../../data/models';
 
 export default {
 
   path: '/allbooks',
-
-  // async action() {
-    // const data = await require.ensure([], require => require('./allbooks.md'), 'about');
-
-    // return {
-      // title: data.title,
-      // chunk: 'allbooks',
-      // component: <Layout><Page {...data} /></Layout>,
-    // };
-  // },
   
   async action({ fetch,store }) {
+	  
 	let state = store.getState();
-	// if(!state.user.email){
-		// return { redirect: '/login' }
-	// }
+	const owner = state.user.email;
+	// if not login redirect to the login page
+	if(!state.user.email){
+		return { redirect: '/login' }
+	}
+	
+	// get all the books
     const resp = await fetch('/graphql', {
       body: JSON.stringify({
-        query: '{allbooks{title}}',
+        query: '{allbooks{id,title}}',
       }),
     });
     const { data } = await resp.json();
-    if (!data) throw new Error('Failed to load the news feed.');
-	console.log(data.allbooks[0].id)
-	const vhtml='<h1>hello graph<h1>';
+    if (!data) throw new Error('Failed to load the booklist.');
+	
+	// handle borrower book requests	
+	const handleReq = async (id) => {
+		let queryStr = 'mutation {updatebook(id:"'+id+'",borrower:"'+owner+'",isBorrowed:"1")}';	
+		const resp = await fetch('/graphql', {
+		  body: JSON.stringify({
+			query: queryStr,
+		  }),
+		});
+		const { data } = await resp.json();
+		if (!data) throw new Error('Failed to load the booklist.');
+	}
+	
     return {
       title: 'All Books',
-      component: <Layout><Allbooks books={data.allbooks} /></Layout>,
+      component: <Layout><Allbooks books={data.allbooks} handleReq={handleReq} /></Layout>,
     };
   },
 

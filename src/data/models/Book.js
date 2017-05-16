@@ -32,8 +32,8 @@ const Book = Model.define('Book', {
   },
 
   isBorrowed: {
-    type: DataType.BOOLEAN,
-    defaultValue: false,
+    type: DataType.STRING(255),
+    defaultValue: 0,
   },
 
 }, {

@@ -11,23 +11,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Mybooks.css';
-<<<<<<< HEAD
-import { Alert,Button,Panel } from 'react-bootstrap';
-// import 'jquery/dist/jquery';
-// import 'bootstrap/dist/js/bootstrap';
-=======
 import { Alert,Button,Panel,Accordion } from 'react-bootstrap';
->>>>>>> 8e8c812330709711971bdca069fe25fd1ff35764
 
 class Mybooks extends React.Component {
-  
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      open: false
-    };
-  }
-  
+    
   static propTypes = {
     title: PropTypes.string.isRequired,
   };
@@ -56,7 +43,7 @@ class Mybooks extends React.Component {
           <Panel header={'Trade requests for you('+ this.props.reqForMyBooks.length +' unapproved)'} bsStyle="info" eventKey="2">
             <div className={s.bookList}>
             {this.props.reqForMyBooks.map(item => (
-              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
+              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a>&nbsp;<a><i className="fa fa-thumbs-o-up"></i></a></h4>
             ))}
             </div>
           </Panel>
@@ -85,7 +72,7 @@ class Mybooks extends React.Component {
 		  <div className={s.bookList}>
 			<h1></h1>
 			{this.props.myAllBooks.map(item => (
-            <article key={item.link} className={s.newsItem}>
+            <article className={s.newsItem}>
               <h2 className={s.newsTitle}><a href={item.link}>{item.title}</a></h2>
             </article>
 			))}

@@ -18,11 +18,13 @@ import allbooks from './queries/allbooks';
 import yourReq from './queries/yourReq';
 import yourReqCnt from './queries/yourReqCnt';
 import addbook from './mutations/addbook';
+import updatebook from './mutations/updatebook';
 
 const Mutation = new ObjectType({
   name: 'Mutations',
   fields: {
-    createBook: addbook,
+    addbook: addbook,
+	updatebook: updatebook,
   }
 });
 
@@ -32,7 +34,7 @@ const schema = new Schema({
     fields: {
       me,
       news,
-	    allbooks,
+	  allbooks,
       yourReq,
       yourReqCnt,
     },

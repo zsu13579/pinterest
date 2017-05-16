@@ -33,6 +33,21 @@ export default {
       const { data } = await resp.json();
       if (!data) throw new Error('Failed to load the booklist:' + err);
       return data.allbooks;
+    }
+
+    // confirm borrower book requests  
+    const handleReq = async (id) => {
+      let queryStr = 'mutation {updatebook(id:"'+id+'",isBorrowed:"2")}';  
+      const resp = await fetch('/graphql', {
+        body: JSON.stringify({
+        query: queryStr,
+        }),
+      });
+      const { data } = await resp.json();
+      if (!data) throw new Error('Failed to load the booklist.');
+      // request for me query unapproved
+      let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
+      const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");
     } 
   
     // My books query
@@ -42,12 +57,12 @@ export default {
     let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title}}';
     const myReqBooks = await getBooks(queryStr2, "My requests books");
     // request for me query unapproved
-    let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title}}';
+    let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
     const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");
 	
     return {
       title,
-      component: <Layout><Mybooks title={title} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} /></Layout>,
+      component: <Layout><Mybooks title={title} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} handleReq={handleReq} /></Layout>,
     };
   },
 

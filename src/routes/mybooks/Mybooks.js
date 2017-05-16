@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Mybooks.css';
 import { Alert,Button,Panel,Accordion } from 'react-bootstrap';
+import { connect } from 'react-redux'
 
 class Mybooks extends React.Component {
     
@@ -24,8 +25,16 @@ class Mybooks extends React.Component {
     this.state = {
       yourRequestOpen: false,
       RequestForYouOpen: false,
+      myReqBooks: this.props.myReqBooks,
+      reqForMyBooks: this.props.reqForMyBooks,
     };
   }
+
+  handleClick(e){
+  const id = e.target.id;
+  this.props.handleReq(id);
+  this.setState({reqForMyBooks: this.props.reqForMyBooks})
+  } 
 
   render() {
     return (
@@ -33,17 +42,17 @@ class Mybooks extends React.Component {
         <div className={s.container}>
         <br/>
         <Accordion>
-          <Panel header={'Your Trade requests('+ this.props.myReqBooks.length +' outstanding)'} bsStyle="info" eventKey="1">
+          <Panel header={'Your Trade requests('+ this.state.myReqBooks.length +' outstanding)'} bsStyle="info" eventKey="1">
             <div className={s.bookList}>
-            {this.props.myReqBooks.map(item => (
+            {this.state.myReqBooks.map(item => (
               <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
             ))}
             </div>
           </Panel>
-          <Panel header={'Trade requests for you('+ this.props.reqForMyBooks.length +' unapproved)'} bsStyle="info" eventKey="2">
+          <Panel header={'Trade requests for you('+ this.state.reqForMyBooks.length +' unapproved)'} bsStyle="info" eventKey="2">
             <div className={s.bookList}>
-            {this.props.reqForMyBooks.map(item => (
-              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a>&nbsp;<a><i className="fa fa-thumbs-o-up"></i></a></h4>
+            {this.state.reqForMyBooks.map(item => (
+              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a>&nbsp;<a><i id={item.id} onClick={this.handleClick.bind(this)} className="fa fa-thumbs-o-up"></i></a></h4>
             ))}
             </div>
           </Panel>

@@ -92,4 +92,10 @@ class Mybooks extends React.Component {
   }
 }
 
-export default withStyles(s)(Mybooks);
+function mapStateToProps(state) {
+  return {
+    value: state.reqForMyBooks
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(s)(Mybooks));

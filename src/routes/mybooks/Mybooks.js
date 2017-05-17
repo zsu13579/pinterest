@@ -12,7 +12,8 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Mybooks.css';
 import { Alert,Button,Panel,Accordion } from 'react-bootstrap';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { reqForMyBooks, confirmReqForMyBooks } from '../../actions/book';
 
 class Mybooks extends React.Component {
     
@@ -22,37 +23,33 @@ class Mybooks extends React.Component {
 
   constructor(...args) {
     super(...args);
-    this.state = {
-      yourRequestOpen: false,
-      RequestForYouOpen: false,
-      myReqBooks: this.props.myReqBooks,
-      reqForMyBooks: this.props.reqForMyBooks,
-    };
+    // this.state = {
+      // yourRequestOpen: false,
+      // RequestForYouOpen: false,
+      // myReqBooks: this.props.myReqBooks,
+      // reqForMyBooks: this.props.reqForMyBooks,
+    // };
   }
 
-  handleClick(e){
-  const id = e.target.id;
-  this.props.handleReq(id);
-  this.setState({reqForMyBooks: this.props.reqForMyBooks})
-  } 
 
   render() {
+	  const { handleClick,fetch } = this.props
     return (
       <div className={s.root}>
         <div className={s.container}>
         <br/>
         <Accordion>
-          <Panel header={'Your Trade requests('+ this.state.myReqBooks.length +' outstanding)'} bsStyle="info" eventKey="1">
+          <Panel header={'Your Trade requests('+ this.props.myReqBooks.length +' outstanding)'} bsStyle="info" eventKey="1">
             <div className={s.bookList}>
-            {this.state.myReqBooks.map(item => (
+            {this.props.myReqBooks.map(item => (
               <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
             ))}
             </div>
           </Panel>
-          <Panel header={'Trade requests for you('+ this.state.reqForMyBooks.length +' unapproved)'} bsStyle="info" eventKey="2">
+          <Panel header={'Trade requests for you('+ this.props.reqForMyBooks.length +' unapproved)'} bsStyle="info" eventKey="2">
             <div className={s.bookList}>
-            {this.state.reqForMyBooks.map(item => (
-              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a>&nbsp;<a><i id={item.id} onClick={this.handleClick.bind(this)} className="fa fa-thumbs-o-up"></i></a></h4>
+            {this.props.reqForMyBooks.map(item => (
+              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a>&nbsp;<a><i id={item.id} onClick={handleClick} className="fa fa-thumbs-o-up"></i></a></h4>
             ))}
             </div>
           </Panel>
@@ -92,10 +89,20 @@ class Mybooks extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    value: state.reqForMyBooks
-  }
-}
+// <<<<<<< HEAD
+// function mapStateToProps(state) {
+//   return {
+//     value: state.reqForMyBooks
+//   }
+// }
 
-export default connect(mapStateToProps)(withStyles(s)(Mybooks));
+// export default connect(mapStateToProps)(withStyles(s)(Mybooks));
+// =======
+
+function mapDispatchToProps(dispatch){
+  return {
+    handleClick: (e) => dispatch(confirmReqForMyBooks({id:e.target.id}))
+  }	
+} 
+export default connect(false,mapDispatchToProps)(withStyles(s)(Mybooks));
+

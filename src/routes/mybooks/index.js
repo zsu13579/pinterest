@@ -45,9 +45,11 @@ export default {
       });
       const { data } = await resp.json();
       if (!data) throw new Error('Failed to load the booklist.');
+	  	  
       // request for me query unapproved
       let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
       const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");
+	  return reqForMyBooks;
     } 
   
     // My books query
@@ -62,7 +64,7 @@ export default {
 	
     return {
       title,
-      component: <Layout><Mybooks title={title} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} handleReq={handleReq} /></Layout>,
+      component: <Layout><Mybooks title={title} fetch={fetch} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} handleReq={handleReq} /></Layout>,
     };
   },
 

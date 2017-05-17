@@ -45,9 +45,11 @@ export default {
       });
       const { data } = await resp.json();
       if (!data) throw new Error('Failed to load the booklist.');
+	  	  
       // request for me query unapproved
       let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
       const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");
+	  return reqForMyBooks;
     } 
   
     // My books query

@@ -14,10 +14,10 @@ import s from './Allbooks.css';
 
 class Allbooks extends React.Component {
 
-  // constructor(...args) {
-	// super(...args);
-    // this.handleReq = this.props.handleReq.bind(this);
-  // }		
+  constructor(...args) {
+	  super(...args);
+    this.state = {books: this.props.books};
+  }		
 	
   static propTypes = {
     books: PropTypes.arrayOf(PropTypes.shape({
@@ -30,8 +30,9 @@ class Allbooks extends React.Component {
   }
   
   handleClick(e){
-	const id = e.target.id;
-	this.props.handleReq(id);
+  	const id = e.target.id;
+  	const books = this.props.handleReq(id);
+    this.setState({books: books});
   }	
   
   render() {
@@ -39,7 +40,7 @@ class Allbooks extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <h1>All Books</h1>
-          {this.props.books.map(item => (
+          {this.state.books.map(item => (
             <article className={s.newsItem}>
               <h1 className={s.newsTitle}><a href={item.link}>{item.title}</a><a><i id={item.id} onClick={this.handleClick.bind(this)} className='fa fa-exchange fa-fw'></i></a></h1>
             </article>

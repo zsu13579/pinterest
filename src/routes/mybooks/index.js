@@ -45,11 +45,15 @@ export default {
       });
       const { data } = await resp.json();
       if (!data) throw new Error('Failed to load the booklist.');
-	  	  
+	  	
+      // My requests query outstanding
+      let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title}}';
+      const myReqBooks = await getBooks(queryStr2, "My requests books");
       // request for me query unapproved
       let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
-      const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");
-	  return reqForMyBooks;
+      const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");  
+
+	    return {reqForMyBooks: reqForMyBooks, myReqBooks: myReqBooks}
     } 
   
     // My books query

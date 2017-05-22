@@ -23,6 +23,7 @@ export default {
   		return { redirect: '/login' }
   	}
     
+    console.log(state.user.email);
     // get books function
     async function getBooks(queryStr,err){
       const resp = await fetch('/graphql', {
@@ -47,20 +48,41 @@ export default {
       if (!data) throw new Error('Failed to load the booklist.');
 	  	
       // My requests query outstanding
-      let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title}}';
+      let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
       const myReqBooks = await getBooks(queryStr2, "My requests books");
       // request for me query unapproved
       let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
       const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");  
 
 	    return {reqForMyBooks: reqForMyBooks, myReqBooks: myReqBooks}
-    } 
+    }
+
+    // cancel book requests  
+    const handleTimes = async (id) => {
+      let queryStr = 'mutation {updatebook(id:"'+id+'",isBorrowed:"0")}';  
+      const resp = await fetch('/graphql', {
+        body: JSON.stringify({
+        query: queryStr,
+        }),
+      });
+      const { data } = await resp.json();
+      if (!data) throw new Error('Failed to load the booklist.');
+      
+      // My requests query outstanding
+      let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
+      const myReqBooks = await getBooks(queryStr2, "My requests books");
+      // request for me query unapproved
+      let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
+      const reqForMyBooks = await getBooks(queryStr3, "Requests for my books");  
+
+      return {reqForMyBooks: reqForMyBooks, myReqBooks: myReqBooks}
+    }  
   
     // My books query
     let queryStr1 = '{allbooks(owner:"'+state.user.email+'"){title}}';
     const myAllBooks = await getBooks(queryStr1, "My allbooks");
     // My requests query outstanding
-    let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title}}';
+    let queryStr2 = '{allbooks(borrower:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
     const myReqBooks = await getBooks(queryStr2, "My requests books");
     // request for me query unapproved
     let queryStr3 = '{allbooks(owner:"'+state.user.email+'",isBorrowed:"1"){title,id}}';
@@ -68,7 +90,7 @@ export default {
 	
     return {
       title,
-      component: <Layout><Mybooks title={title} fetch={fetch} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} handleReq={handleReq} /></Layout>,
+      component: <Layout><Mybooks title={title} fetch={fetch} myAllBooks={myAllBooks} myReqBooks={myReqBooks} reqForMyBooks={reqForMyBooks} handleReq={handleReq} handleTimes={handleTimes} /></Layout>,
     };
   },
 

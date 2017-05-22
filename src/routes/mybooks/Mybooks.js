@@ -38,6 +38,12 @@ class Mybooks extends React.Component {
       this.setState({reqForMyBooks: reqForMyBooks, myReqBooks: myReqBooks, open: false});
   }
 
+  async handleTimes(e){
+      const id = e.target.id;
+      const {reqForMyBooks, myReqBooks} = await this.props.handleTimes(id);
+      this.setState({reqForMyBooks: reqForMyBooks, myReqBooks: myReqBooks, open: false});
+  }
+
   render() {
     return (
       <div className={s.root}>
@@ -47,7 +53,7 @@ class Mybooks extends React.Component {
           <Panel header={'Your Trade requests('+ this.state.myReqBooks.length +' outstanding)'} bsStyle="info" eventKey="1">
             <div className={s.bookList}>
             {this.state.myReqBooks.map(item => (
-              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a></h4>
+              <h4 className={s.newsTitle}><a href={item.link}>{item.title}</a>&nbsp;<a><i id={item.id} onClick={this.handleTimes.bind(this)} className="fa fa-times"></i></a></h4>
             ))}
             </div>
           </Panel>

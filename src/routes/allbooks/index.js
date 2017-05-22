@@ -28,15 +28,13 @@ export default {
 	// get all the books
     const resp = await fetch('/graphql', {
       body: JSON.stringify({
-        query: '{allbooks{id,title,owner}}',
+        query: '{allbooks{id,title,owner,isBorrowed}}',
       }),
     });
     const { data } = await resp.json();
     if (!data) throw new Error('Failed to load the booklist.');
-    // const dataNotOwner = await data.filter(x => x.owner != owner);
-    const dataNotOwner = data;
-    console.log(typeof(data));
-	
+    const dataNotOwner = await data.allbooks.filter(x => x.owner != owner && x.isBorrowed == 0 );
+
 	// handle borrower book requests	
 	const handleReq = async (id) => {
 		let queryStr = 'mutation {updatebook(id:"'+id+'",borrower:"'+owner+'",isBorrowed:"1")}';	
@@ -51,20 +49,19 @@ export default {
 		// get all the books
 	    const resp2 = await fetch('/graphql', {
 	      body: JSON.stringify({
-	        query: '{allbooks{id,title,owner}}',
+	        query: '{allbooks{id,title,owner,isBorrowed}}',
 	      }),
 	    });
-	    const { data2 } = await resp2.json();
+	    const { data:data2 } = await resp2.json();
 	    if (!data2) throw new Error('Failed to load the booklist.');
-	    // const dataNotOwner = await data.filter(x => x.owner != owner);
-	    const dataNotOwner = data2;
+	    const dataNotOwner2 = await data2.allbooks.filter(x => x.owner != owner && x.isBorrowed == 0);
 
-	    return dataNotOwner;
+	    return {books:dataNotOwner2};
 	}
 	
     return {
       title: 'All Books',
-      component: <Layout><Allbooks books={dataNotOwner.allbooks} handleReq={handleReq} /></Layout>,
+      component: <Layout><Allbooks books={dataNotOwner} handleReq={handleReq} /></Layout>,
     };
   },
 

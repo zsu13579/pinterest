@@ -29,9 +29,9 @@ class Allbooks extends React.Component {
     })).isRequired,
   }
   
-  handleClick(e){
+  async handleClick(e){
   	const id = e.target.id;
-  	const books = this.props.handleReq(id);
+  	const { books } = await this.props.handleReq(id);
     this.setState({books: books});
   }	
   
